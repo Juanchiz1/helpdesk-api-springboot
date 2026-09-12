@@ -47,10 +47,12 @@ public AuthenticationProvider authenticationProvider() {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/**", "/api/usuarios/registro").permitAll()
-                    .requestMatchers("/api/tickets/**").hasAnyRole("CLIENTE", "AGENTE", "ADMIN")
-                    .requestMatchers("/api/usuarios/**").hasAnyRole("AGENTE", "ADMIN")
-                    .anyRequest().authenticated())
+        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()        
+        .requestMatchers("/api/auth/**", "/api/usuarios/registro").permitAll()
+        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+        .requestMatchers("/api/tickets/**").hasAnyRole("CLIENTE", "AGENTE", "ADMIN")
+        .requestMatchers("/api/usuarios/**").hasAnyRole("AGENTE", "ADMIN")
+        .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
