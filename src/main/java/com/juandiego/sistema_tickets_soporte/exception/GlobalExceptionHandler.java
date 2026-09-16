@@ -6,6 +6,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,6 +24,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> manejarEmailDuplicado(EmailYaExisteException ex) {
         return construirRespuesta(HttpStatus.CONFLICT, ex.getMessage());
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+public ResponseEntity<Map<String, Object>> manejarCredencialesInvalidas(BadCredentialsException ex) {
+    return construirRespuesta(HttpStatus.UNAUTHORIZED, "Credenciales inválidas");
+}
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> manejarValidacion(MethodArgumentNotValidException ex) {
