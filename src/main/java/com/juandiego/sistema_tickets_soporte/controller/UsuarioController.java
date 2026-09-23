@@ -3,12 +3,15 @@ package com.juandiego.sistema_tickets_soporte.controller;
 import com.juandiego.sistema_tickets_soporte.dto.UsuarioRegistroDTO;
 import com.juandiego.sistema_tickets_soporte.dto.UsuarioResponseDTO;
 import com.juandiego.sistema_tickets_soporte.model.Usuario;
+import com.juandiego.sistema_tickets_soporte.security.UsuarioDetails;
 import com.juandiego.sistema_tickets_soporte.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.juandiego.sistema_tickets_soporte.security.UsuarioDetails;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -35,4 +38,10 @@ public class UsuarioController {
         Usuario usuario = usuarioService.buscarPorId(id);
         return ResponseEntity.ok(UsuarioResponseDTO.desde(usuario));
     }
+
+
+@GetMapping("/me")
+public ResponseEntity<UsuarioResponseDTO> obtenerUsuarioActual(@AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+    return ResponseEntity.ok(UsuarioResponseDTO.desde(usuarioDetails.getUsuario()));
+}
 }
