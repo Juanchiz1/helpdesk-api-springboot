@@ -1,5 +1,6 @@
 package com.juandiego.sistema_tickets_soporte.controller;
 
+import com.juandiego.sistema_tickets_soporte.dto.CambiarActivoDTO;
 import com.juandiego.sistema_tickets_soporte.dto.UsuarioRegistroDTO;
 import com.juandiego.sistema_tickets_soporte.dto.UsuarioResponseDTO;
 import com.juandiego.sistema_tickets_soporte.model.Usuario;
@@ -7,6 +8,9 @@ import com.juandiego.sistema_tickets_soporte.security.UsuarioDetails;
 import com.juandiego.sistema_tickets_soporte.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +47,29 @@ public class UsuarioController {
 @GetMapping("/me")
 public ResponseEntity<UsuarioResponseDTO> obtenerUsuarioActual(@AuthenticationPrincipal UsuarioDetails usuarioDetails) {
     return ResponseEntity.ok(UsuarioResponseDTO.desde(usuarioDetails.getUsuario()));
+}
+
+@GetMapping
+public ResponseEntity<List<UsuarioResponseDTO>> listarTodos() {
+    List<UsuarioResponseDTO> usuarios = usuarioService.listarTodos().stream()
+            .map(UsuarioResponseDTO::desde)
+            .toList();
+    return ResponseEntity.ok(usuarios);
+}
+
+@GetMapping("/agentes")
+public ResponseEntity<List<UsuarioResponseDTO>> listarAgentes() {
+    List<UsuarioResponseDTO> agentes = usuarioService.listarPorRol(Usuario.Rol.AGENTE).stream()
+            .map(UsuarioResponseDTO::desde)
+            .toList();
+    return ResponseEntity.ok(agentes);
+}
+
+@PatchMapping("/{id}/activo")
+public ResponseEntity<UsuarioResponseDTO> cambiarEstadoActivo(
+        @PathVariable Long id,
+        @Valid @RequestBody CambiarActivoDTO dto) {
+    Usuario usuario = usuarioService.cambiarEstadoActivo(id, dto.getActivo());
+    return ResponseEntity.ok(UsuarioResponseDTO.desde(usuario));
 }
 }

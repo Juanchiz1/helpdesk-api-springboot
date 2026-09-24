@@ -15,6 +15,7 @@ public class UsuarioResponseDTO {
     private String email;
     private String rol;
     private LocalDateTime fechaCreacion;
+    private Boolean activo;
 
     public static UsuarioResponseDTO desde(Usuario usuario) {
         return new UsuarioResponseDTO(
@@ -22,7 +23,8 @@ public class UsuarioResponseDTO {
                 usuario.getNombre(),
                 usuario.getEmail(),
                 usuario.getRol().name(),
-                usuario.getFechaCreacion()
+                usuario.getFechaCreacion(),
+                usuario.getActivo()
         );
     }
 }

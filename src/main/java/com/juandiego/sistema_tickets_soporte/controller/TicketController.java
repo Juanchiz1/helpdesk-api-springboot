@@ -5,6 +5,7 @@ import com.juandiego.sistema_tickets_soporte.dto.TicketCreacionDTO;
 import com.juandiego.sistema_tickets_soporte.dto.TicketResponseDTO;
 import com.juandiego.sistema_tickets_soporte.model.Ticket;
 import com.juandiego.sistema_tickets_soporte.model.Usuario;
+import com.juandiego.sistema_tickets_soporte.security.UsuarioDetails;
 import com.juandiego.sistema_tickets_soporte.service.TicketService;
 import com.juandiego.sistema_tickets_soporte.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 
 import java.util.List;
 
@@ -69,4 +72,16 @@ public class TicketController {
         Ticket actualizado = ticketService.cambiarEstado(id, nuevoEstado);
         return ResponseEntity.ok(TicketResponseDTO.desde(actualizado));
     }
+
+    @GetMapping("/mis-tickets")
+public ResponseEntity<List<TicketResponseDTO>> misTickets(
+        @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+    Usuario usuario = usuarioDetails.getUsuario();
+    List<Ticket> tickets = usuario.getRol() == Usuario.Rol.AGENTE
+            ? ticketService.listarPorAgente(usuario)
+            : ticketService.listarPorCliente(usuario);
+
+    List<TicketResponseDTO> dtos = tickets.stream().map(TicketResponseDTO::desde).toList();
+    return ResponseEntity.ok(dtos);
+}
 }

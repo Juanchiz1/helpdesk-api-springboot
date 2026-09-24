@@ -1,5 +1,7 @@
 package com.juandiego.sistema_tickets_soporte.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +39,18 @@ public class UsuarioService {
                 .orElseThrow(() -> new RecursoNoEncontradoException(
                         "Usuario no encontrado con email: " + email));
     }
+
+    public List<Usuario> listarTodos() {
+    return usuarioRepository.findAll();
+}
+
+public List<Usuario> listarPorRol(Usuario.Rol rol) {
+    return usuarioRepository.findByRol(rol);
+}
+
+public Usuario cambiarEstadoActivo(Long id, boolean activo) {
+    Usuario usuario = buscarPorId(id);
+    usuario.setActivo(activo);
+    return usuarioRepository.save(usuario);
+}
 }
