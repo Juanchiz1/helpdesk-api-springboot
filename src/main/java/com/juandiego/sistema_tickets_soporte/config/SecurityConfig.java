@@ -45,7 +45,7 @@ public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(java.util.List.of(
     "http://localhost:5173",
-    "https://helpdesk-frontend.vercel.app"
+    "https://helpdesk-frontend-olive-five.vercel.app/"
 ));
     configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(java.util.List.of("*"));
