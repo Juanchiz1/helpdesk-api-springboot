@@ -2,6 +2,18 @@
 
 API REST para gestión de tickets de soporte técnico, con autenticación JWT, control de roles y documentación interactiva. Backend construido con Spring Boot, pensado como base para un sistema de mesa de ayuda (helpdesk) real.
 
+## Demo en producción
+
+- **API desplegada:** https://helpdesk-api-springboot.onrender.com
+- **Documentación interactiva (Swagger):** https://helpdesk-api-springboot.onrender.com/swagger-ui.html
+- **Frontend conectado:** https://helpdesk-frontend-olive-five.vercel.app
+
+> **Nota:** el backend está en el plan gratuito de Render, que "duerme" tras 15 minutos de inactividad. La primera petición después de estar inactivo puede tardar 30-50 segundos en responder mientras el servicio despierta — es una limitación del hosting gratuito, no un error de la aplicación.
+
+**Infraestructura:** contenerizado con Docker, desplegado en Render, base de datos PostgreSQL gestionada en Neon.
+
+![Swagger UI en producción](docs/screenshots/swagger-produccion.png)
+
 ## Stack técnico
 
 - **Java 17**
