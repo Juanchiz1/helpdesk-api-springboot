@@ -52,6 +52,8 @@ com.juandiego.sistema_tickets_soporte
 └── service/           # Lógica de negocio
 ```
 
+Diagramas detallados (UML, secuencia, ER, despliegue): ver [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)
+
 ## Modelo de datos
 
 - **Usuario**: id, nombre, email, password (encriptado), rol, fechaCreacion, activo
